@@ -53,5 +53,5 @@ jobs:
         with:
           name: ubuntu-packages
           path: |
-            deb
+            build/deb
             build/run
