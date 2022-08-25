@@ -16,27 +16,32 @@ jobs:
       - name: Cmake
         working-directory: build
         run: cmake -GNinja ..
+        env:
+#          PLATFORM: x64
+#          WIRESHARK_BASE_DIR: C:/wireshark-libs
+#          QT5_BASE_DIR: C:/Qt/5.12.3/msvc2017_64
+          WIRESHARK_BUILD_WITH_QT5: 1
       - name: Build
         run: ninja
         working-directory: build
-      - name: Build test-programs
-        run: ninja test-programs
-        working-directory: build
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.8
-      - name: Install pytest
-        run: pip install pytest pytest-xdist
-      - name: Run tests
-        env:
-          PYTEST_ADDOPTS: --skip-missing-programs=rawshark
+#      - name: Build test-programs
+#        run: ninja test-programs
+#        working-directory: build
+#      - name: Set up Python 3.8
+#        uses: actions/setup-python@v1
+#        with:
+#          python-version: 3.8
+#      - name: Install pytest
+#        run: pip install pytest pytest-xdist
+#      - name: Run tests
+#        env:
+#          PYTEST_ADDOPTS: --skip-missing-programs=rawshark
         # Remove the XDG_CONFIG_HOME variable and ensure that tshark reads configurations from the home directory
         # which created by pytest, and test cases will success in Ubuntu System.
-        run: |
-          unset XDG_CONFIG_HOME
-          pytest
-        working-directory: build
+#        run: |
+#          unset XDG_CONFIG_HOME
+#          pytest
+#        working-directory: build
       - name: Build debian pkg
         run: dpkg-buildpackage -b -us -uc -jauto
       - name: Move deb packages
@@ -46,5 +51,7 @@ jobs:
       - name: Upload deb packages
         uses: actions/upload-artifact@v1
         with:
-          name: packages
-          path: deb
+          name: ubuntu-packages
+          path: |
+            deb
+            build/run

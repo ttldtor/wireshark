@@ -32,17 +32,19 @@ jobs:
       - name: Cmake
         working-directory: build
         run: cmake -GNinja ..
+        env:
+          WIRESHARK_BUILD_WITH_QT5: 1
       - name: Build
         run: ninja
         working-directory: build
-      - name: Build test-programs
-        run: ninja test-programs
-        working-directory: build
-      - name: Run tests
-        env:
-          PYTEST_ADDOPTS: --skip-missing-programs=rawshark
-        run: pytest
-        working-directory: build
+#      - name: Build test-programs
+#        run: ninja test-programs
+#        working-directory: build
+#      - name: Run tests
+#        env:
+#          PYTEST_ADDOPTS: --skip-missing-programs=rawshark
+#        run: pytest
+#        working-directory: build
       - name: Build dmg
         run: ninja dmg_package
         working-directory: build
@@ -51,7 +53,9 @@ jobs:
           mkdir dmg
           mv build/run/*dmg dmg/
       - name: Upload dmg packages
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
-          name: packages
-          path: dmg
+          name: mac-packages
+          path:
+            build/run
+            dmg
