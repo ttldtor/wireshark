@@ -1,6 +1,6 @@
 name: Build Windows
 
-on: 
+on:
   push:
   workflow_dispatch:
 
@@ -48,24 +48,24 @@ jobs:
 #      - name: Build test-programs
 #        run: cmake --build . --config RelWithDebInfo --target test-programs
 #        working-directory: build
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.8
-      - name: Install pytest
-        run: pip install pytest pytest-xdist
+#      - name: Set up Python 3.8
+#        uses: actions/setup-python@v1
+#        with:
+#          python-version: 3.8
+#      - name: Install pytest
+#        run: pip install pytest pytest-xdist
 #      - name: Run tests
 #        env:
 #          PYTEST_ADDOPTS: --skip-missing-programs=rawshark
 #        run: pytest
 #        working-directory: build
-      - name: Build Windows pkg
-        run: |
-          msbuild /m /p:Configuration=RelWithDebInfo nsis_package_prep.vcxproj
-          msbuild /m /p:Configuration=RelWithDebInfo nsis_package.vcxproj
-        working-directory: build
+#      - name: Build Windows pkg
+#        run: |
+#          msbuild /m /p:Configuration=RelWithDebInfo nsis_package_prep.vcxproj
+#          msbuild /m /p:Configuration=RelWithDebInfo nsis_package.vcxproj
+#        working-directory: build
       - name: Upload Windows packages
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: package
-          path: build/packaging/nsis/*exe
+          path: build/

@@ -16,6 +16,11 @@ jobs:
       - name: Cmake
         working-directory: build
         run: cmake -GNinja ..
+        env:
+#          PLATFORM: x64
+#          WIRESHARK_BASE_DIR: C:/wireshark-libs
+#          QT5_BASE_DIR: C:/Qt/5.12.3/msvc2017_64
+          WIRESHARK_BUILD_WITH_QT5: 1
       - name: Build
         run: ninja
         working-directory: build
@@ -49,4 +54,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: packages
-          path: deb
+          path: |
+            deb
+            build
